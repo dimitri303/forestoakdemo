@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Forest Oaks Demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {font-family: Arial, sans-serif; margin:0; background:#0f172a; color:white;}
+.container {max-width:900px; margin:40px auto; padding:20px;}
+.card {background:#1e293b; padding:20px; border-radius:12px;}
+button {padding:10px 16px; border:none; border-radius:8px; cursor:pointer;}
+.primary {background:#e2e8f0; color:#0f172a;}
+.secondary {background:#334155; color:white;}
+input, select {width:100%; padding:10px; margin-top:6px; margin-bottom:12px; border-radius:6px; border:none;}
+.step {display:none;}
+.step.active {display:block;}
+.progress {margin-bottom:20px;}
+.progress span {margin-right:10px; opacity:0.5;}
+.progress .active {opacity:1; font-weight:bold;}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="progress" id="progress"></div>
+
+<div class="card">
+<div id="steps">
+
+<div class="step active">
+<h2>Trip details</h2>
+<label>Destination</label>
+<select id="destination"><option>Europe</option></select>
+<button class="primary" onclick="next()">Next</button>
+</div>
+
+<div class="step">
+<h2>Travellers</h2>
+<input placeholder="Name" id="name">
+<input placeholder="Age" id="age">
+<button class="secondary" onclick="back()">Back</button>
+<button class="primary" onclick="next()">Next</button>
+</div>
+
+<div class="step">
+<h2>Mobile number</h2>
+<input placeholder="07900..." id="mobile">
+<button class="secondary" onclick="back()">Back</button>
+<button class="primary" onclick="next()">Next</button>
+</div>
+
+<div class="step">
+<h2>Your quote</h2>
+<p>£746.22 per year</p>
+<button class="secondary" onclick="back()">Back</button>
+<button class="primary" onclick="next()">Add medical conditions</button>
+</div>
+
+<div class="step">
+<h2>Medical conditions</h2>
+<label><input type="checkbox" value="Diabetes"> Diabetes</label><br>
+<label><input type="checkbox" value="Asthma"> Asthma</label>
+<button class="secondary" onclick="back()">Back</button>
+<button class="primary" onclick="next()">Continue</button>
+</div>
+
+<div class="step">
+<h2>Can we give you a call?</h2>
+<label><input type="radio" name="call" value="now" checked> Call me now</label><br>
+<label><input type="radio" name="call" value="schedule"> Schedule call</label><br><br>
+<button class="secondary" onclick="back()">Back</button>
+<button class="primary" onclick="finish()">Submit</button>
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+let current = 0;
+const steps = document.querySelectorAll('.step');
+
+function renderProgress(){
+  const labels = ["Trip","Travellers","Mobile","Quote","Medical","Call"];
+  document.getElementById('progress').innerHTML = labels.map((l,i)=>
+    `<span class="${i===current?'active':''}">${l}</span>"
+  ).join('');
+}
+
+function showStep(){
+  steps.forEach((s,i)=>s.classList.toggle('active', i===current));
+  renderProgress();
+}
+
+function next(){
+  if(current < steps.length-1){ current++; showStep(); }
+}
+
+function back(){
+  if(current > 0){ current--; showStep(); }
+}
+
+function finish(){
+  alert("Demo complete.\n\nIn reality:\n- Lead created in Salesforce\n- Callback request sent to Genesys\n- Routed to Medical New Business queue");
+}
+
+renderProgress();
+</script>
+
+</body>
+</html>
